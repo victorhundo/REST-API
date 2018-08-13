@@ -8,15 +8,7 @@ jobs:
           name: Start container and verify it's working
           command: |
             set -x
-            docker-compose -f docker/compose/circle.yaml down
-            docker-compose -f docker/compose/circle.yaml up -d --build
-
-      - run:
-          name: Wait container is ready
-          command: |
-            set -x
-            sleep 20
-
+            docker-compose -f docker/compose/circle.yaml build
       - save_cache:
           key: docker_cache_build
           paths:
@@ -28,8 +20,21 @@ jobs:
       - checkout
       - restore_cache:
           key: docker_cache_build
+
       - run:
-          name: Start container and verify it's working
+          name: Start container
+          command: |
+            set -x
+            docker-compose -f docker/compose/circle.yaml up -d
+
+      - run:
+          name: Wait container is ready
+          command: |
+            set -x
+            sleep 20
+
+      - run:
+          name: Verify it's working
           command: |
             set -x
             docker exec -it uea-api bash -c "git pull"
@@ -37,17 +42,6 @@ jobs:
             docker exec -it uea-api bash -c "npm install --unsafe-perm --only=dev"
             docker exec -it uea-api bash -c "nyc npm run test-unit"
             docker exec -it uea-api bash -c "nyc report --reporter=lcov"
-      - save_cache:
-          key: docker_cache_test
-          paths:
-            - docker-cache
-
-  coverage:
-    machine: true
-    steps:
-      - checkout
-      - restore_cache:
-          key: docker_cache_test
       - run:
           name: Deploy to codecov
           command: |
@@ -73,12 +67,9 @@ workflows:
       - test:
           requires:
             - build
-      - coverage:
-          requires:
-            - test
       - deploy:
           requires:
-            - coverage
+            - test
           filters:
             branches:
               only: master
