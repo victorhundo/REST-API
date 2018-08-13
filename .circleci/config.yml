@@ -67,10 +67,7 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - config
-      - build:
-          requires:
-            - config
+      - build
       - test:
           requires:
             - build
