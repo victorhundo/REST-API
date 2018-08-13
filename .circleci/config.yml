@@ -2,7 +2,7 @@ version: 2
 jobs:
   config:
     docker:
-      - image: debian
+      - image: circleci/cci-demo-docker-primary
     steps:
       - run:
           name: Install Docker client
@@ -20,7 +20,7 @@ jobs:
             chmod +x /usr/local/bin/docker-compose
   build:
     docker:
-      - image: debian
+      - image: circleci/cci-demo-docker-primary
     steps:
       - checkout
       - run:
@@ -38,7 +38,7 @@ jobs:
 
   test:
     docker:
-      - image: debian
+      - image: circleci/cci-demo-docker-primary
     steps:
       - checkout
       - run:
@@ -54,7 +54,7 @@ jobs:
 
   coverage:
     docker:
-      - image: debian
+      - image: circleci/cci-demo-docker-primary
     steps:
       - checkout
       - run:
@@ -64,8 +64,8 @@ jobs:
             docker exec -it uea-api bash -c "codecov -t ${CODECOV_TOKEN}"
 
   deploy:
-    machine:
-      enabled: true
+    docker:
+      - image: circleci/cci-demo-docker-primary
     steps:
       - add_ssh_keys:
           fingerprints:
