@@ -1,11 +1,10 @@
 version: 2
 jobs:
   build:
-    machine: true
+    machine:
+      docker_layer_caching: true
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       - run:
           name: Build Docker Images
           command: |
@@ -13,11 +12,10 @@ jobs:
             docker-compose -f docker/compose/circle.yaml build
 
   test:
-    machine: true
+    machine:
+      docker_layer_caching: true
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       - run:
           name: Start containers
           command: |
@@ -41,11 +39,10 @@ jobs:
             docker exec -it uea-api bash -c "codecov -t ${CODECOV_TOKEN}"
 
   coverage:
-    machine: true
+    machine:
+      docker_layer_caching: true
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       - run:
           name: Deploy to codecov
           command: |
