@@ -10,18 +10,44 @@ jobs:
           command: |
             set -x
             docker-compose -f docker/compose/circle.yaml build
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            set -x
+            docker save -o /caches/uea-circle.tar uea-circle
+            docker save -o /caches/uea-mysql.tar uea-mysql
+            docker save -o /caches/uea-liquibase.tar uea-liquibase
+      - save_cache:
+          key: docker-images-cache
+          paths:
+            - /caches/uea-circle.tar
+            - /caches/uea-mysql.tar
+            - /caches/uea-liquibase.tar
 
   test:
     machine:
       docker_layer_caching: true
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - docker-images-cache
+          paths:
+            - /caches/uea-circle.tar
+            - /caches/uea-mysql.tar
+            - /caches/uea-liquibase.tar
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set -x
+            docker load -i /caches/uea-circle.tar | true
+            docker load -i /caches/uea-mysql.tar | true
+            docker load -i /caches/uea-liquibase.tar | true
       - run:
           name: Start containers
           command: |
             set -x
             docker-compose -f docker/compose/circle.yaml up -d
-
       - run:
           name: Wait container is ready
           command: |
