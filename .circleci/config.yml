@@ -17,12 +17,13 @@ jobs:
             docker save -o /caches/uea-circle.tar uea-circle
             docker save -o /caches/uea-mysql.tar uea-mysql
             docker save -o /caches/uea-liquibase.tar uea-liquibase
+
       - save_cache:
           key: docker-images-cache
           paths:
-            - /caches/uea-circle.tar
-            - /caches/uea-mysql.tar
-            - /caches/uea-liquibase.tar
+            - ~/.cache/uea-circle.tar
+            - ~/.cache/uea-mysql.tar
+            - ~/.cache/uea-liquibase.tar
 
   test:
     machine:
@@ -33,9 +34,9 @@ jobs:
           keys:
             - docker-images-cache
           paths:
-            - /caches/uea-circle.tar
-            - /caches/uea-mysql.tar
-            - /caches/uea-liquibase.tar
+            - ~/.cache/uea-circle.tar
+            - ~/.cache/uea-mysql.tar
+            - ~/.cache/uea-liquibase.tar
       - run:
           name: Load Docker image layer cache
           command: |
