@@ -2,7 +2,7 @@ version: 2
 jobs:
   config:
     docker:
-      - image: circleci/cci-demo-docker-primary
+      - image: circleci/cci-demo-docker-primary:0.0.2
     steps:
       - run:
           name: Install Docker client
@@ -20,7 +20,7 @@ jobs:
             chmod +x /usr/local/bin/docker-compose
   build:
     docker:
-      - image: circleci/cci-demo-docker-primary
+      - image: circleci/cci-demo-docker-primary:0.0.2
     steps:
       - checkout
       - run:
@@ -38,7 +38,7 @@ jobs:
 
   test:
     docker:
-      - image: circleci/cci-demo-docker-primary
+      - image: circleci/cci-demo-docker-primary:0.0.2
     steps:
       - checkout
       - run:
@@ -54,7 +54,7 @@ jobs:
 
   coverage:
     docker:
-      - image: circleci/cci-demo-docker-primary
+      - image: circleci/cci-demo-docker-primary:0.0.2
     steps:
       - checkout
       - run:
@@ -65,7 +65,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/cci-demo-docker-primary
+      - image: circleci/cci-demo-docker-primary:0.0.2
     steps:
       - add_ssh_keys:
           fingerprints:
