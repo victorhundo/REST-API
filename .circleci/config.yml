@@ -41,9 +41,9 @@ jobs:
           name: Load Docker image layer cache
           command: |
             set -x
-            docker load -i ~/.cache/uea-circle.tar | true
-            docker load -i ~/.cache/uea-mysql.tar | true
-            docker load -i ~/.cache/uea-liquibase.tar | true
+            docker load -i ~/.cache/uea-circle.tar
+            docker load -i ~/.cache/uea-mysql.tar
+            docker load -i ~/.cache/uea-liquibase.tar
       - run:
           name: Start containers
           command: |
