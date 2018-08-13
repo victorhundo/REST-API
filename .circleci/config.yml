@@ -1,8 +1,8 @@
 version: 2
 jobs:
   config:
-    machine:
-      enabled: true
+    docker:
+      - image: debian
     steps:
       - run:
           name: Install Docker client
@@ -19,8 +19,8 @@ jobs:
             curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
             chmod +x /usr/local/bin/docker-compose
   build:
-    machine:
-      enabled: true
+    docker:
+      - image: debian
     steps:
       - checkout
       - run:
@@ -37,8 +37,8 @@ jobs:
             sleep 20
 
   test:
-    machine:
-      enabled: true
+    docker:
+      - image: debian
     steps:
       - checkout
       - run:
@@ -53,8 +53,8 @@ jobs:
             docker exec -it uea-api bash -c "codecov -t ${CODECOV_TOKEN}"
 
   coverage:
-    machine:
-      enabled: true
+    docker:
+      - image: debian
     steps:
       - checkout
       - run:
