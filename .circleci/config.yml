@@ -17,10 +17,16 @@ jobs:
             set -x
             sleep 20
 
+      - save_cache:
+          key: *docker_cache_key
+          paths:
+            - docker-cache
+
   test:
     machine: true
     steps:
       - checkout
+      - *restore_docker_cache
       - run:
           name: Start container and verify it's working
           command: |
@@ -32,12 +38,16 @@ jobs:
             docker exec -it uea-api bash -c "npm install --unsafe-perm --only=dev"
             docker exec -it uea-api bash -c "nyc npm run test-unit"
             docker exec -it uea-api bash -c "nyc report --reporter=lcov"
+      - save_cache:
+          key: *docker_cache_key
+          paths:
+            - docker-cache
 
   coverage:
     machine: true
     steps:
       - checkout
-      - setup_remote_docker
+      - *restore_docker_cache
       - run:
           name: Deploy to codecov
           command: |
