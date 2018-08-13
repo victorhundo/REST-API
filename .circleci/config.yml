@@ -21,9 +21,9 @@ jobs:
   build:
     docker:
       - image: circleci/cci-demo-docker-primary:0.0.2
-    - setup_remote_docker
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: Start container and verify it's working
           command: |
@@ -40,9 +40,9 @@ jobs:
   test:
     docker:
       - image: circleci/cci-demo-docker-primary:0.0.2
-    - setup_remote_docker
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: Start container and verify it's working
           command: |
@@ -57,9 +57,9 @@ jobs:
   coverage:
     docker:
       - image: circleci/cci-demo-docker-primary:0.0.2
-    - setup_remote_docker
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: Deploy to codecov
           command: |
