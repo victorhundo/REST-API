@@ -5,7 +5,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-        docker_layer_caching: true
+          docker_layer_caching: true
       - run:
           name: Build Docker Images
           command: |
@@ -17,7 +17,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-        docker_layer_caching: true
+          docker_layer_caching: true
       - run:
           name: Start containers
           command: |
@@ -45,7 +45,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-        docker_layer_caching: true
+          docker_layer_caching: true
       - run:
           name: Deploy to codecov
           command: |
