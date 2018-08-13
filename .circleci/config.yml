@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    machie: true
+    machine: true
     steps:
       - checkout
       - setup_remote_docker:
